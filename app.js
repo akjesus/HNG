@@ -1,9 +1,14 @@
 const express = require('express');
 const app = express();
-const port = 3002;
-const server = app.listen(port, () => console.log("Server listening on port " + port));
 var http = require('http');
 
+
+const port = 3000;
+const server = app.listen(port, () => {
+  console.log(
+    `HNG App is running at port: ${port}`
+  );
+});
 
 app.get("/", (req, res, next) => {
     res.setHeader('Content-Type', 'application/json');
