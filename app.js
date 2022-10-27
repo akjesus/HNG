@@ -1,13 +1,12 @@
 const express = require('express');
 const app = express();
+const dotenv = require('dotenv');
 var http = require('http');
 
-
+dotenv.config({ path: './config.env' });
 const port = 3000;
-const server = app.listen(port, () => {
-  console.log(
-    `HNG App is running at port: ${port}`
-  );
+const server = app.listen((process.env.port || 3000), () => {
+  console.log(`HNG App is running at port: ${port} in ${process.env.ENV} mode`);
 });
 
 app.get("/", (req, res, next) => {
@@ -22,4 +21,21 @@ app.get("/", (req, res, next) => {
 
     var payload = JSON.stringify(result);
     res.status(200).send(payload);
+
+
 })
+process.on('unhandledRejection', (err) => {
+    console.log(err.name, err.message);
+    console.log('Unhandled Error! Application is shutting down!');
+    server.close(() => {
+      process.exit(1);
+    });
+  });
+  
+  process.on('SIGTERM', () => {
+    console.log('SIGTERM RECEIVED! Application is shutting down!');
+    server.close(() => {
+      console.log('Process Terminated!');
+    });
+  });
+  
