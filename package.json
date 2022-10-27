@@ -1,0 +1,19 @@
+{
+  "name": "hng",
+  "version": "1.0.0",
+  "description": "Deploying test server and backend for HNG task ",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "hng",
+    "backend",
+    "nodejs"
+  ],
+  "author": "Otong Akan",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
