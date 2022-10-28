@@ -1,7 +1,13 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const dotenv = require('dotenv');
 var http = require('http');
+const helmet = require('helmet');
+app.use(cors());
+app.options('*', cors());
+//use helmet
+app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
 
 dotenv.config({ path: './config.env' });
 const PORT = 3000;
