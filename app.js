@@ -14,7 +14,7 @@ app.get("/", (req, res, next) => {
     result = {
         slackUsername: "akjesus",
         backend: true,
-        age: 36,
+        age: 31,
         bio: "Aspiring Backend Dev",
     }
     var payload = JSON.stringify(result);
