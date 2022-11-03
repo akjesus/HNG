@@ -62,10 +62,7 @@ app.post("/", (req, res, next) => {
   const xInt = parseInt(req.body.x);
   const yInt = parseInt(req.body.y);
   
-  if(operation_type.length > 15) {
-    result = parse(operation_type)
-  }
-  else result = operation (operation_type, xInt, yInt);
+  result = operation (operation_type, xInt, yInt);
 
   payload.slackUsername = "akjesus";
   payload.result = result;
@@ -76,25 +73,54 @@ app.post("/", (req, res, next) => {
 
 
 function operation (operation_type, x, y) {
-  
+  if (operation_type.length > 14 ) {
+      var myArray = parse(operation_type);
+      const num = myArray.filter((item) => {
+      if (parseInt(item) && typeof parseInt(item) === 'number') {
+        return item
+      }
+      
+     })
+     if(myArray.includes('add') || myArray.includes('addition')){
+      return add(parseInt(num[0]),  parseInt(num[1]));
+    }
+
+    if(myArray.includes('multiply') || myArray.includes('times')){
+      return multiply(parseInt(num[0]),  parseInt(num[1]));
+    }
+    if(myArray.includes('subtract') || myArray.includes('remove')){
+      return subtract(parseInt(num[0]),  parseInt(num[1]));
+    }
+  } else {
     if (operation_type == "addition") {
-      return x + y;
+      return add(x, y);
     }
     
     if (operation_type == "subtraction") {
-      return x - y;
+      return subtract(x, y);
     }
 
     if (operation_type == "multiplication") {
-      return x * y;
+      return multiply(x, y);
     } 
+  }  
 }
+
   function parse(input) {
     var parts = input.split(' ');
     return parts;
   }
+function add(x, y) {
+  return x + y;
+} 
 
- 
+function subtract(x, y) {
+  return x - y;
+} 
+function multiply(x, y) {
+  return x * y;
+} 
+
 
   // SERVER
 module.exports = app;
