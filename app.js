@@ -7,6 +7,8 @@ const bodyParser = require('body-parser');
 const path = require("path");
 const helmet = require('helmet');
 const rateLimit = require("express-rate-limit");
+const url = require('url');
+
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname,'./public')));
 app.use(cors());
@@ -51,19 +53,37 @@ app.post("/:string", (req, res, next) => {
 });
 
 app.post("/", (req, res, next) => {
-  res.setHeader('Content-Type', 'application/json');
-  if (!req.body.operation_type) {
-    const errorMessage = "Error! Invalid query sent, please try again"
-    return res.status(400).send(errorMessage);
+    res.setHeader('Content-Type', 'application/json');
+    var url_parts = url.parse(req.url, true);
+    if( url_parts.query.operation_type){
+    var query = url_parts.query;
+    const operation_type = query.operation_type.toLowerCase();
+    const xInt = parseInt(query.x);
+    const yInt = parseInt(query.y);
+    const payload = operation(operation_type, xInt, yInt);
+    console.log('Payload from request query is');
+    console.log(payload);
+    return res.status(200).send(payload);
   }
-
-  const operation_type = req.body.operation_type.toLowerCase();
-  const xInt = parseInt(req.body.x);
-  const yInt = parseInt(req.body.y);
   
-  const payload = operation(operation_type, xInt, yInt);
-  console.log(payload);
-  res.status(200).send(payload);
+  else {
+
+    if (!req.body.operation_type) {
+      const errorMessage = "Error! Invalid query sent, please try again"
+      return res.status(400).send(errorMessage);
+    }
+  
+    const operation_type = req.body.operation_type.toLowerCase();
+    const xInt = parseInt(req.body.x);
+    const yInt = parseInt(req.body.y);
+    
+    const payload = operation(operation_type, xInt, yInt);
+    console.log('Payload from request body is');
+    console.log(payload);
+    res.status(200).send(payload);
+  }
+  
+  
 });
 
 
