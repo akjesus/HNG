@@ -56,60 +56,73 @@ app.post("/", (req, res, next) => {
     const errorMessage = "Error! Invalid query sent, please try again"
     return res.status(400).send(errorMessage);
   }
-  var result = "";
-  var payload = {};
+
   const operation_type = req.body.operation_type.toLowerCase();
   const xInt = parseInt(req.body.x);
   const yInt = parseInt(req.body.y);
   
-  result = operation (operation_type, xInt, yInt);
-
-  payload.slackUsername = "akjesus";
-  payload.result = result;
-  payload.operation_type = operation_type
+  const payload = operation(operation_type, xInt, yInt);
+  console.log(payload);
   res.status(200).send(payload);
 });
 
 
 
-function operation (operation_type, x, y) {
+function operation(operation_type, x, y) {
+  var payload = {};
+      payload.slackUsername = "akjesus";
   if (operation_type.length > 14 ) {
-      var myArray = parse(operation_type);
+      
+      var myArray = operation_type.split(' ');
       const num = myArray.filter((item) => {
       if (parseInt(item) && typeof parseInt(item) === 'number') {
         return item
       }
       
      })
+      var x = parseInt(num[0]);
+      var y = parseInt(num[1]);
      if(myArray.includes('add') || myArray.includes('addition')){
-      return add(parseInt(num[0]),  parseInt(num[1]));
+      payload.operation_type = "addition";
+      payload.result = add(x, y);
+      return payload;
     }
 
     if(myArray.includes('multiply') || myArray.includes('times')){
-      return multiply(parseInt(num[0]),  parseInt(num[1]));
+      payload.operation_type = "multiplication";
+      payload.result = multiply(x, y);
+      return payload
     }
     if(myArray.includes('subtract') || myArray.includes('remove')){
-      return subtract(parseInt(num[0]),  parseInt(num[1]));
+      payload.operation_type = "subtraction";
+      payload.result = subtract(x, y);
+      return payload
     }
   } else {
     if (operation_type == "addition") {
-      return add(x, y);
+      payload.operation_type = operation_type;
+      payload.result = add(x, y);
+      return payload;
     }
     
     if (operation_type == "subtraction") {
-      return subtract(x, y);
+      payload.operation_type = operation_type;
+      payload.result = subtract(x, y);
+      return payload;
     }
 
     if (operation_type == "multiplication") {
-      return multiply(x, y);
+      payload.operation_type = operation_type;
+      payload.result = multiply(x, y);
+      return payload;
     } 
+    else {
+      payload = "Please refine your search parameters and try again!"
+      return payload;
+    }
   }  
 }
 
-  function parse(input) {
-    var parts = input.split(' ');
-    return parts;
-  }
 function add(x, y) {
   return x + y;
 } 
