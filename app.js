@@ -51,7 +51,7 @@ app.post("/:string", (req, res, next) => {
 });
 
 app.post("/", (req, res, next) => {
-
+  res.setHeader('Content-Type', 'application/json');
   if (!req.body.operation_type) {
     const errorMessage = "Error! Invalid query sent, please try again"
     return res.status(400).send(errorMessage);
