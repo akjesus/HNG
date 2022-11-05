@@ -93,22 +93,14 @@ function operation(operation_type, x, y) {
       payload.slackUsername = "akjesus";
   if (operation_type.length > 14 ) {
       
-      var myArray = operation_type.split(' ');
-      const num = myArray.filter((item) => {
-      if (parseInt(item) && typeof parseInt(item) === 'number') {
-        return item
-      }
-      
-     })
-      var x = parseInt(num[0]);
-      var y = parseInt(num[1]);
+    var myArray = operation_type.split(' ');
      if(myArray.includes('add') || myArray.includes('addition')){
       payload.operation_type = "addition";
       payload.result = add(x, y);
       return payload;
     }
 
-    if(myArray.includes('multiply') || myArray.includes('times')){
+    if(myArray.includes('multiply') || myArray.includes('times') || myArray.includes('product')){
       payload.operation_type = "multiplication";
       payload.result = multiply(x, y);
       return payload
