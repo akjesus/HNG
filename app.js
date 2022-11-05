@@ -94,7 +94,7 @@ function operation(operation_type, x, y) {
   if (operation_type.length > 14 ) {
       
     var myArray = operation_type.split(' ');
-     if(myArray.includes('add') || myArray.includes('addition')){
+     if(myArray.includes('add') || myArray.includes('addition') || myArray.includes('sum')){
       payload.operation_type = "addition";
       payload.result = add(x, y);
       return payload;
@@ -105,7 +105,7 @@ function operation(operation_type, x, y) {
       payload.result = multiply(x, y);
       return payload
     }
-    if(myArray.includes('subtract') || myArray.includes('remove')){
+    if(myArray.includes('subtract') || myArray.includes('remove')|| myArray.includes('minus')){
       payload.operation_type = "subtraction";
       payload.result = subtract(x, y);
       return payload
