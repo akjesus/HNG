@@ -43,8 +43,8 @@ app.get("/", (req, res, next) => {
     current_day: weekday[new Date(Date.now()).getDay()],
     utc_time: new Date(Date.now()),
     track: "backend",
-    github_file_url: path.dirname(__filename),
-    github_repo_url: __filename,
+    github_file_url: "https://github.com/akjesus/HNG",
+    github_repo_url: "https://github.com/akjesus/HNG/blob/master/server.js",
   };
   res.status(200).send(result);
 });
